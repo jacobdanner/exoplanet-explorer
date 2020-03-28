@@ -45,13 +45,13 @@ Instructions:
           resolve(req.response);
         } else {
           // It failed :(
-          reject(req.statusText);
+          reject(Error(req.statusText));
         }
       };
       req.onerror = function() {
         // It failed :(
         // Pass a 'Network Error' to reject
-        reject('Network Error');
+        reject(Error('Network Error'));
       };
       req.send();
     });
@@ -64,7 +64,9 @@ Instructions:
     You'll need to add a .then and a .catch. Pass the response to addSearchHeader on resolve or
     pass 'unknown' to addSearchHeader if it rejects.
      */
-    get('../data/earth-like-results.json').then(addSearchHeader).catch(function(e){
+    get('../data/earth-like-results.json').then(function(response){
+      addSearchHeader(response)}
+      ).catch(function(e){
       console.log(e);
       addSearchHeader('unknown');
     });
